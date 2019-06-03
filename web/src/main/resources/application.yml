@@ -1,0 +1,20 @@
+server:
+  port: 12808
+dubbo:
+  app:
+    name: limon-pg
+  zookeeper:
+    server:
+      commerce: localhost:2181
+    commerce:
+      group: /commerce/dubbo
+#      username: commerce
+#      password: CoPlat666Feel
+    cache:
+      file: dubbo
+  provider:
+    registry: true
+    timeout: 120000
+    port: 22808
+  consumer:
+    timeout: 120000

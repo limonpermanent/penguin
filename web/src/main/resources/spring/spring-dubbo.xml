@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <dubbo:provider filter="commerceDubboFilter"/>
+
+
+    <!-- 默认设置，超时120秒，出错不重试 -->
+    <dubbo:consumer timeout="${dubbo.consumer.timeout}"
+                    loadbalance="leastactive" lazy="true" check="false"/>
+    <dubbo:application name="${dubbo.app.name}"/>
+
+    <!-- registry -->
+    <dubbo:registry id="zk-commerce" protocol="zookeeper"
+                    address="${dubbo.zookeeper.server.commerce}" group="${dubbo.zookeeper.commerce.group}"
+                    check="true"
+                    register="true"
+                    file="${dubbo.zookeeper.cache.file}/commerce.cache"/>
+    <!-- service -->
+    <dubbo:service interface="com.limon.commerce_pg.api.TestFacade"
+                   ref="agentDetailDataFacadeImpl" registry="zk-commerce"/>
+</beans>
